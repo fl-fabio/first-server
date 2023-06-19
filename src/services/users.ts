@@ -1,5 +1,6 @@
-import {users} from '../data/users';
 import { User } from '../models/User';
+
+const users : User[] = [];
 
 export const getUsers = () => {
     return users;

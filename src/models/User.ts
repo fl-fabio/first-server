@@ -1,18 +1,4 @@
-interface Address {
-    geolocation: {
-      lat: string;
-      long: string;
-    };
-    city: string;
-    street: string;
-    number: number;
-    zipcode: string;
-  }
-  
-  interface Name {
-    firstName: string;
-    lastName: string;
-  }
+import {Address, Name} from '../utils/types/userInterfaces'
   
   export interface User {
     address?: Address;
