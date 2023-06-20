@@ -1,6 +1,18 @@
 import { City } from "../models/city.model";
 
-const cities: City[] = [];
+const cities: City[] = [
+  {
+    id: "123",
+    name: "Biancavilla",
+    province: "Catania",
+    center: "Una via a caso"
+  }, {
+    id: "124",
+    name: "Brighton",
+    province: "London",
+    center: "Califfo Street"
+  }
+];
 
 export const getCities = () => {
   return cities;

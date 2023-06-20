@@ -10,6 +10,9 @@ import {
 
 import { ValidateRequest } from "../middleware/bodyParser";
 import { get } from "http";
+import { searchUserWithCity } from "../utils/cities.functions";
+import { getUserById } from "../services/users.service";
+import { User } from "../models/user.model";
 
 export const getCitiesHandler = (req: Request, res: Response) => {
   try {
@@ -69,9 +72,15 @@ export const updateCityHandler = [
 export const deleteCityHandler = (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    const deletedCity = deleteCity(id);
-    if (deletedCity) {
-      res.json(deletedCity);
+
+    if (getCityById(id)) {
+      const usersHasCity = searchUserWithCity(id);
+      if (!usersHasCity) {
+        const deletedCity = deleteCity(id);
+        res.json(deletedCity);
+      } else {
+        res.status(406).json({ error: "Cannot delete, Exits an user with this city" });
+      }
     } else {
       res.status(404).json({ error: "City not found" });
     }

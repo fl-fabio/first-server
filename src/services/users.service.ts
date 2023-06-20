@@ -1,6 +1,31 @@
 import { User } from "../models/user.model";
 
-const users: User[] = [];
+const users: User[] = [
+  {
+    id: "1",
+    name: {
+      firstName: "Alfio",
+      lastName: "Giuffrida",
+    },
+    email: "alfio@gmail.com",
+    username: "Alfius",
+    password: "alfio2023",
+    phone: "3395389146",
+    city: "123",
+  },
+  {
+    id: "2",
+    name: {
+      firstName: "Giovanni",
+      lastName: "Cordova",
+    },
+    email: "giovanni@gmail.com",
+    username: "Giovannis",
+    password: "giovanni2023",
+    phone: "3395389146",
+    city: "124",
+  },
+];
 
 export const getUsers = () => {
   return users;

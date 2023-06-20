@@ -1,4 +1,6 @@
 import { body } from "express-validator";
+import { getCities, getCityById } from "../../services/cities.service";
+import { City } from "../../models/city.model";
 
 export const validatePostRequest = [
   body("name")
@@ -26,6 +28,16 @@ export const validatePostRequest = [
     .withMessage("Phone number is required")
     .matches(/^\d{10}$/)
     .withMessage("Invalid phone number format"),
+  body("city")
+    .notEmpty()
+    .withMessage("city is required")
+    .custom((value) => {
+      const foundedCity = getCities().find((city: City) => city.id === value);
+      if (!foundedCity) {
+        throw new Error("City not found");
+      }
+      return true;
+    }),
 ];
 
 export const validatePatchRequest = [
@@ -59,4 +71,15 @@ export const validatePatchRequest = [
     .withMessage("Phone number is required")
     .matches(/^\+\d{2}-\d{10}$/)
     .withMessage("Invalid phone number format"),
+  body("city")
+    .optional()
+    .notEmpty()
+    .withMessage("city is required")
+    .custom((value) => {
+      const foundedCity = getCityById(value);
+      if (!foundedCity) {
+        throw new Error("City not found");
+      }
+      return true;
+    }),
 ];

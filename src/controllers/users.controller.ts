@@ -8,11 +8,18 @@ import {
   deleteUser,
 } from "../services/users.service";
 import { ValidateRequest } from "../middleware/bodyParser";
+import { getCityById } from "../services/cities.service";
+import { User } from "../models/user.model";
+import { City } from "../models/city.model";
+import { userShowed } from "../utils/users.functions";
 
 export const getUsersHandler = (req: Request, res: Response) => {
   try {
     const users = getUsers();
-    res.json(users);
+    const usersShowed = users.map((user: User) => {
+      return userShowed(user);
+    })
+    res.json(usersShowed);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
@@ -23,7 +30,7 @@ export const getUserByIdHandler = (req: Request, res: Response) => {
   try {
     const user = getUserById(id);
     if (user) {
-      res.json(user);
+      res.json(userShowed(user));
     } else {
       res.status(404).json({ error: "User not found" });
     }
@@ -41,7 +48,7 @@ export const addUserHandler = [
         ...req.body,
       };
       const addedUser = addUser(newUser);
-      res.json(addedUser);
+      res.json(userShowed(addedUser));
     } catch (error: any) {
       res.status(500).json({ error: error.message });
     }
@@ -55,7 +62,7 @@ export const updateUserHandler = [
     try {
       const updatedUser = updateUser(id, req.body);
       if (updatedUser) {
-        res.json(updatedUser);
+        res.json(userShowed(updatedUser));
       } else {
         res.status(404).json({ error: "Users not found" });
       }
