@@ -1,4 +1,4 @@
-import {Address, Name} from '../utils/types/userInterfaces'
+import {Address, Name} from '../utils/interfaces/user.interface'
   
   export interface User {
     address?: Address;

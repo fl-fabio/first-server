@@ -15,7 +15,7 @@ export const validatePostRequest = [
     .notEmpty()
     .withMessage("Username is required")
     .isLength({ min: 5 })
-    .withMessage("Name must be at least 6 characters long"),
+    .withMessage("Username must be at least 6 characters long"),
   body("password")
     .notEmpty()
     .withMessage("Password is required")
@@ -46,7 +46,7 @@ export const validatePatchRequest = [
     .notEmpty()
     .withMessage("Username is required")
     .isLength({ min: 5 })
-    .withMessage("Name must be at least 6 characters long"),
+    .withMessage("Username must be at least 6 characters long"),
   body("password")
     .optional()
     .notEmpty()
