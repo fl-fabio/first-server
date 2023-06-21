@@ -9,10 +9,7 @@ import {
 } from "../services/cities.service";
 
 import { ValidateRequest } from "../middleware/bodyParser";
-import { get } from "http";
 import { searchUserWithCity } from "../utils/cities.functions";
-import { getUserById } from "../services/users.service";
-import { User } from "../models/user.model";
 
 export const getCitiesHandler = (req: Request, res: Response) => {
   try {

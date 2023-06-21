@@ -25,11 +25,56 @@ const users: User[] = [
     phone: "3395389146",
     city: "124",
   },
+  {
+    id: "3",
+    name: {
+      firstName: "Alfio",
+      lastName: "Giuffrida",
+    },
+    email: "alfio@gmail.com",
+    username: "Alfius",
+    password: "alfio2023",
+    phone: "3395389146",
+    city: "123",
+  },
+  {
+    id: "4",
+    name: {
+      firstName: "Giovanni",
+      lastName: "Cordova",
+    },
+    email: "giovanni@gmail.com",
+    username: "Giovannis",
+    password: "giovanni2023",
+    phone: "3395389146",
+    city: "124",
+  },
 ];
 
-export const getUsers = () => {
-  return users;
+export const getUsers = (
+  query: { [key: string]: string } = {},
+  skip?: number,
+  limit?: number
+): User[] => {
+  const acceptedKeys = ["city", "username"];
+  let filteredUsers = users;
+  for (const key in query) {
+    if (acceptedKeys.includes(key)) {
+      filteredUsers = filteredUsers.filter((user: User) => {
+        return user[key as keyof User] === query[key];
+      });
+    }
+  }
+ 
+  if (skip && limit){
+    filteredUsers = filteredUsers.slice(skip, skip + limit);
+  }
+
+  return filteredUsers;
 };
+
+export const getUsersByCity = (city: string) =>
+  users.filter((user) => user.city === city);
 
 export const getUserById = (id: string) => {
   return users.find((user: User) => user.id === id);

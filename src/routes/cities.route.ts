@@ -10,7 +10,7 @@ import {
 import {
   validateCityPatchRequest,
   validateCityPostRequest,
-} from "../middleware/validations/cities.validation";
+} from "../middleware/validators/cities.validation";
 
 
 export const router = Router();

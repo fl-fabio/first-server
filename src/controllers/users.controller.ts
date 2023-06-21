@@ -1,25 +1,33 @@
 import { Request, Response } from "express";
 import { v4 as uuidV4 } from "uuid";
 import {
-  getUsers,
   getUserById,
   addUser,
   updateUser,
   deleteUser,
+  getUsersByCity,
+  getUsers,
 } from "../services/users.service";
 import { ValidateRequest } from "../middleware/bodyParser";
-import { getCityById } from "../services/cities.service";
-import { User } from "../models/user.model";
-import { City } from "../models/city.model";
-import { userShowed } from "../utils/users.functions";
+import { userShowed, usersShowed } from "../utils/users.functions";
 
 export const getUsersHandler = (req: Request, res: Response) => {
   try {
-    const users = getUsers();
-    const usersShowed = users.map((user: User) => {
-      return userShowed(user);
-    })
-    res.json(usersShowed);
+    const usersQueryParams = req.query;
+    const skip = parseInt(req.query.skip as string);
+    const limit = parseInt(req.query.limit as string);
+
+    const filteredUsers = getUsers(
+      usersQueryParams as { [key: string]: string },
+      skip,
+      limit
+    );
+    if (Object.values(usersQueryParams).length > 0 && !filteredUsers) {
+      res.status(404).json({ error: "Invalid query" });
+    } else {
+      const usersWithCity = usersShowed(filteredUsers)
+      res.json(usersWithCity);
+    }
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
@@ -33,6 +41,18 @@ export const getUserByIdHandler = (req: Request, res: Response) => {
       res.json(userShowed(user));
     } else {
       res.status(404).json({ error: "User not found" });
+    }
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const getUsersByCityHandler = (req: Request, res: Response) => {
+  const { city } = req.query;
+  try {
+    if (city) {
+      const filteredUsers = getUsersByCity(city as string);
+      res.json(usersShowed(filteredUsers));
     }
   } catch (error: any) {
     res.status(500).json({ error: error.message });

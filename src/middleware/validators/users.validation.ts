@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, query } from "express-validator";
 import { getCities, getCityById } from "../../services/cities.service";
 import { City } from "../../models/city.model";
 
@@ -83,3 +83,5 @@ export const validatePatchRequest = [
       return true;
     }),
 ];
+
+

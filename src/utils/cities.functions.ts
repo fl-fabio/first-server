@@ -6,7 +6,6 @@ export const searchUserWithCity = (city: string) => {
   const indexOfCityInUsers = getUsers().findIndex((user: User) => 
     user.city === city
 );
-  console.log(indexOfCityInUsers);
   if (indexOfCityInUsers !== -1) {
     return true
   } 
