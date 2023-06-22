@@ -1,4 +1,4 @@
-import {Address, Name} from '../utils/interfaces/user.interface'
+import {Address, Name} from '../types/user.interface'
 import { City } from './city.model';
   
   export interface User {

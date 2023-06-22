@@ -11,11 +11,12 @@ import {
   validateCityPatchRequest,
   validateCityPostRequest,
 } from "../middleware/validators/cities.validation";
+import { validateQueryParams } from "../middleware/validators/users.validation";
 
 
 export const router = Router();
 
-router.get("/", getCitiesHandler);
+router.get("/",validateQueryParams, getCitiesHandler);
 
 router.get("/:id", getCitiesByIdHandler);
 

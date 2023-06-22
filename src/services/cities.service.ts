@@ -1,4 +1,6 @@
 import { City } from "../models/city.model";
+import { PaginatedResponse } from "../types/paginatedResponse.interface";
+import { getAll } from "../utils/general.functions";
 
 const cities: City[] = [
   {
@@ -14,9 +16,16 @@ const cities: City[] = [
   }
 ];
 
-export const getCities = () => {
+/* export const getCities = () => {
   return cities;
-};
+}; */
+
+export const getInitialCities = () => {
+  return cities;
+}
+export const getCities = (query: {[key:string]:string}):PaginatedResponse<City>  => {
+  return getAll<City>(cities, ['name'], query);
+}
 
 export const getCityById = (id: string) => {
   return cities.find((city: City) => city.id === id);

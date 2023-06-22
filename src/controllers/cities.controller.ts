@@ -11,14 +11,22 @@ import {
 import { ValidateRequest } from "../middleware/bodyParser";
 import { searchUserWithCity } from "../utils/cities.functions";
 
-export const getCitiesHandler = (req: Request, res: Response) => {
-  try {
-    const cities = getCities();
-    res.json(cities);
-  } catch (error: any) {
-    res.status(500).json({ error: error.message });
+export const getCitiesHandler =[
+  ValidateRequest,
+  (req: Request, res: Response) => {
+    try {
+      const citiesQueryParams = req.query;
+  
+      const { results, total } = getCities(
+        citiesQueryParams as { [key: string]: string }
+      );
+  
+      res.json({total,results});
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
+    }
   }
-};
+] 
 
 export const getCitiesByIdHandler = (req: Request, res: Response) => {
   const { id } = req.params;
@@ -69,14 +77,15 @@ export const updateCityHandler = [
 export const deleteCityHandler = (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-
     if (getCityById(id)) {
       const usersHasCity = searchUserWithCity(id);
       if (!usersHasCity) {
         const deletedCity = deleteCity(id);
         res.json(deletedCity);
       } else {
-        res.status(406).json({ error: "Cannot delete, Exits an user with this city" });
+        res
+          .status(406)
+          .json({ error: "Cannot delete, Exits an user with this city" });
       }
     } else {
       res.status(404).json({ error: "City not found" });

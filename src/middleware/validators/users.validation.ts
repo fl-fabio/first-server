@@ -1,5 +1,5 @@
 import { body, query } from "express-validator";
-import { getCities, getCityById } from "../../services/cities.service";
+import { getCities, getCityById, getInitialCities } from "../../services/cities.service";
 import { City } from "../../models/city.model";
 
 export const validatePostRequest = [
@@ -32,7 +32,7 @@ export const validatePostRequest = [
     .notEmpty()
     .withMessage("city is required")
     .custom((value) => {
-      const foundedCity = getCities().find((city: City) => city.id === value);
+      const foundedCity = getInitialCities().find((city: City) => city.id === value);
       if (!foundedCity) {
         throw new Error("City not found");
       }
@@ -84,4 +84,8 @@ export const validatePatchRequest = [
     }),
 ];
 
+export const validateQueryParams = [
+  query('skip').optional().isInt().withMessage('skip must be an integer number'),
+  query('limit').optional().isInt().withMessage('limit must be an integer number'),
+]
 

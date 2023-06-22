@@ -11,11 +11,12 @@ import {
 import {
   validatePatchRequest,
   validatePostRequest,
+  validateQueryParams,
 } from "../middleware/validators/users.validation";
 
 export const router = Router();
 
-router.get("/", getUsersHandler);
+router.get("/", validateQueryParams, getUsersHandler);
 
 router.get("/:id", getUserByIdHandler);
 

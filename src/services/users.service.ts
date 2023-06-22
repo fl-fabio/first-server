@@ -1,4 +1,6 @@
 import { User } from "../models/user.model";
+import { PaginatedResponse } from "../types/paginatedResponse.interface";
+import { getAll } from "../utils/general.functions";
 
 const users: User[] = [
   {
@@ -51,27 +53,14 @@ const users: User[] = [
   },
 ];
 
-export const getUsers = (
-  query: { [key: string]: string } = {},
-  skip?: number,
-  limit?: number
-): User[] => {
-  const acceptedKeys = ["city", "username"];
-  let filteredUsers = users;
-  for (const key in query) {
-    if (acceptedKeys.includes(key)) {
-      filteredUsers = filteredUsers.filter((user: User) => {
-        return user[key as keyof User] === query[key];
-      });
-    }
-  }
- 
-  if (skip && limit){
-    filteredUsers = filteredUsers.slice(skip, skip + limit);
-  }
 
-  return filteredUsers;
-};
+export const getInitialUsers = () => {
+  return users;
+}
+
+export const getUsers = (query: {[key:string]:string}): PaginatedResponse<User> => {
+  return getAll<User>(users, ['city', 'username'], query);
+}
 
 export const getUsersByCity = (city: string) =>
   users.filter((user) => user.city === city);

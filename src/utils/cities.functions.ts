@@ -1,9 +1,9 @@
 import { City } from "../models/city.model";
 import { User } from "../models/user.model";
-import { getUsers } from "../services/users.service";
+import { getInitialUsers, getUsers } from "../services/users.service";
 
 export const searchUserWithCity = (city: string) => {
-  const indexOfCityInUsers = getUsers().findIndex((user: User) => 
+  const indexOfCityInUsers = getInitialUsers().findIndex((user: User) => 
     user.city === city
 );
   if (indexOfCityInUsers !== -1) {

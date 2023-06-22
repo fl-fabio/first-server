@@ -11,27 +11,23 @@ import {
 import { ValidateRequest } from "../middleware/bodyParser";
 import { userShowed, usersShowed } from "../utils/users.functions";
 
-export const getUsersHandler = (req: Request, res: Response) => {
-  try {
-    const usersQueryParams = req.query;
-    const skip = parseInt(req.query.skip as string);
-    const limit = parseInt(req.query.limit as string);
+export const getUsersHandler = [
+  ValidateRequest,
+  (req: Request, res: Response) => {
+    try {
+      const usersQueryParams = req.query;
 
-    const filteredUsers = getUsers(
-      usersQueryParams as { [key: string]: string },
-      skip,
-      limit
-    );
-    if (Object.values(usersQueryParams).length > 0 && !filteredUsers) {
-      res.status(404).json({ error: "Invalid query" });
-    } else {
-      const usersWithCity = usersShowed(filteredUsers)
-      res.json(usersWithCity);
+      const { results, total } = getUsers(
+        usersQueryParams as { [key: string]: string }
+      );
+
+      const users = usersShowed(results);
+      res.json({ total, users });
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
     }
-  } catch (error: any) {
-    res.status(500).json({ error: error.message });
-  }
-};
+  },
+];
 
 export const getUserByIdHandler = (req: Request, res: Response) => {
   const { id } = req.params;
