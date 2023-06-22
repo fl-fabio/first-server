@@ -30,7 +30,6 @@ export const getAll = <T>(
   if (skip !== undefined && limit !== undefined) {
     filteredResults = filteredResults.slice(skipNumber, skipNumber + limitNumber);
   }
-  console.log(filteredResults);
   return {
     results: filteredResults,
     total: totalResults,

@@ -1,6 +1,6 @@
 import { City } from "../models/city.model";
 import { PaginatedResponse } from "../types/paginatedResponse.interface";
-import { getAll } from "../utils/general.functions";
+import { getAll } from "../utils/common.functions";
 
 const cities: City[] = [
   {

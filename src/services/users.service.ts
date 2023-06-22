@@ -1,6 +1,6 @@
 import { User } from "../models/user.model";
 import { PaginatedResponse } from "../types/paginatedResponse.interface";
-import { getAll } from "../utils/general.functions";
+import { getAll } from "../utils/common.functions";
 
 const users: User[] = [
   {
@@ -59,7 +59,7 @@ export const getInitialUsers = () => {
 }
 
 export const getUsers = (query: {[key:string]:string}): PaginatedResponse<User> => {
-  return getAll<User>(users, ['city', 'username'], query);
+  return getAll(users, ['city', 'username'], query);
 }
 
 export const getUsersByCity = (city: string) =>
@@ -87,7 +87,7 @@ export const deleteUser = (id: string) => {
   const index = users.findIndex((user: User) => user.id === id);
   if (index !== -1) {
     const deletedUser = users.splice(index, 1)[0];
-    return deleteUser;
+    return deletedUser;
   }
   return null;
 };
